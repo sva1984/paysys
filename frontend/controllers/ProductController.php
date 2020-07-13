@@ -9,10 +9,10 @@ use Yii;
 class ProductController extends RestController
 {
     /** @var Product */
-	public $modelClass = Product::class;
+    public $modelClass = Product::class;
 
-	/** @var PayService */
-	public $registerPay;
+    /** @var PayService */
+    public $registerPay;
 
     /**
      * @param $price
@@ -20,9 +20,9 @@ class ProductController extends RestController
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-	public function actionPay($price, $purposePay){
+    public function actionPay($price, $purposePay)
+    {
         $this->registerPay = Yii::createObject('frontend\service\PayService');
         return $this->registerPay->register($price, $purposePay);
-
-	}
+    }
 }
