@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: asv
- * Date: 10.07.2020
- * Time: 16:31
- */
+
 
 namespace frontend\service;
 
@@ -12,10 +7,16 @@ namespace frontend\service;
 use frontend\models\Payment;
 use Yii;
 
-class PaymentsService
+class PaymentService
 {
     private $card;
 
+    /**
+     * @param $sessionId
+     * @param null $card
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
     public function payByCard($sessionId, $card=null){
         $session = Yii::$app->session;
         /** @var Payment $payment */
@@ -42,8 +43,9 @@ class PaymentsService
 
 
     }
+
     /**
-     * @param $this->card
+     * @param $card
      * @return bool
      */
     public function checkCard($card) {
