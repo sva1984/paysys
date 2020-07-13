@@ -6,7 +6,7 @@ use frontend\models\Payment;
 use frontend\service\PaymentService;
 use Yii;
 
-class PaymentController extends RestController
+class PayController extends RestController
 {
     /** @var Payment */
 	public $modelClass = Payment::class;

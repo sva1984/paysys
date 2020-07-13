@@ -5,7 +5,7 @@ namespace frontend\service;
 
 use Yii;
 
-class PayService
+class ProductService
 {
     private $session;
 
@@ -19,8 +19,9 @@ class PayService
         $this->session->set('card', $card);
 
         $url =  "http://paysys/payment/card?sessionId=" . $this->session->id;
+        $urlRest =  "http://paysys/pay/card?sessionId=" . $this->session->id;
         $this->session->close();
-        return $url;
+        return ['Form' => $url, 'Rest' => $urlRest];
     }
 
 }

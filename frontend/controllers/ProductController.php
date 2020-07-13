@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use frontend\models\Product;
-use frontend\service\PayService;
+use frontend\service\ProductService;
 use Yii;
 
 class ProductController extends RestController
@@ -11,7 +11,7 @@ class ProductController extends RestController
     /** @var Product */
     public $modelClass = Product::class;
 
-    /** @var PayService */
+    /** @var ProductService */
     public $registerPay;
 
     /**
@@ -22,7 +22,7 @@ class ProductController extends RestController
      */
     public function actionPay($price, $purposePay)
     {
-        $this->registerPay = Yii::createObject(PayService::class);
+        $this->registerPay = Yii::createObject(ProductService::class);
         return $this->registerPay->register($price, $purposePay);
     }
 }
