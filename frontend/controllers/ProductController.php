@@ -22,7 +22,7 @@ class ProductController extends RestController
      */
     public function actionPay($price, $purposePay)
     {
-        $this->registerPay = Yii::createObject('frontend\service\PayService');
+        $this->registerPay = Yii::createObject(PayService::class);
         return $this->registerPay->register($price, $purposePay);
     }
 }
