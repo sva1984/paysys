@@ -18,7 +18,7 @@ class PayService
         $this->session->set('purpose', $purposePay);
         $this->session->set('card', $card);
 
-        $url =  "http://paysys/payments/card?sessionId=" . $this->session->id;
+        $url =  "http://paysys/payment/card?sessionId=" . $this->session->id;
         $this->session->close();
         return $url;
     }
