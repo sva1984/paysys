@@ -18,7 +18,7 @@ class ProductService
         $this->session->set('purpose', $purposePay);
         $this->session->set('card', $card);
 
-        $url =  "http://paysys/payment/card?sessionId=" . $this->session->id;
+        $url =  "http://paysys/card/form?sessionId=" . $this->session->id;
         $urlRest =  "http://paysys/pay/card?sessionId=" . $this->session->id;
         $this->session->close();
         return ['Form' => $url, 'Rest' => $urlRest];

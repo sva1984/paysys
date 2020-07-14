@@ -31,7 +31,7 @@ class Payment extends \yii\db\ActiveRecord
         return [
             [['card_num', 'purpose', 'price', 'date'], 'required'],
             [['price'], 'number'],
-            [['date'], 'integer'],
+            [['date', 'card_num'], 'integer'],
             [['card_num'], 'string', 'max' => 40],
             [['purpose'], 'string', 'max' => 360],
         ];
