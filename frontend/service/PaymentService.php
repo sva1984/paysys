@@ -3,9 +3,9 @@
 
 namespace frontend\service;
 
-
 use frontend\models\Payment;
 use Yii;
+use yii\web\ForbiddenHttpException;
 
 class PaymentService
 {
@@ -15,6 +15,7 @@ class PaymentService
      * @param $sessionId
      * @param null $card
      * @return array
+     * @throws ForbiddenHttpException
      * @throws \yii\base\InvalidConfigException
      */
     public function payByCard($sessionId, $card=null){
@@ -22,26 +23,35 @@ class PaymentService
         /** @var Payment $payment */
         $payment = Yii::createObject(Payment::class);
 
-        if ($session->id ==$sessionId && $card === null) {
+        if(!isset($session['price']) || !isset($session['purpose'])){
+            throw new ForbiddenHttpException(
+                'Ошибка. Отсутсвует цена или назначение платежа');
+        }
+
+        if(isset($session['created_at']) && (time() - $session['created_at']) > 1800){
+            $session->destroy();
+            throw new ForbiddenHttpException(
+                'Ошибка. Время жизни платёжной сессии истекло. Выберите товары снова.');
+        }
+
+
+        if ($session->id == $sessionId && $card === null) {
             $payment->price = $session->get('price');
             $payment->purpose = $session->get('purpose');
+            $payment->date = $session->get('created_at');
             return['Введите номер карты', $payment];
         }
 
-        if ($session->id ==$sessionId && $card != null){
-            $payment->price = $session->get('price');
-            $payment->purpose = $session->get('purpose');
+        if ($session->id == $sessionId && $card != null){
             $payment->card_num = $card;
-            $payment->date = time();
             if($this->checkCard($card)){
                 $payment->save();
+                $session->destroy();
                 return ['Покупка оплачена', $payment];
             }
 
             return ['Ошибка оплаты. Проверьте номер карты', $payment];
         }
-
-
     }
 
     /**
