@@ -22,9 +22,9 @@ class CardController extends \yii\web\Controller
         if (Yii::$app->request->post()) {
             $card = Yii::$app->request->post()['Payment']['card_num'];
         }
-            return $this->render('form', [
-                'model' => $model,
-                'payment' => $cardService->payByCard($sessionId, $card),
-            ]);
+        return $this->render('form', [
+            'model' => $model,
+            'payment' => $cardService->payByCard($sessionId, $card),
+        ]);
     }
 }

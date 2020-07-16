@@ -9,18 +9,19 @@ use Yii;
 class PayController extends RestController
 {
     /** @var Payment */
-	public $modelClass = Payment::class;
+    public $modelClass = Payment::class;
 
     /**
-     * @param $sessionId
-     * @param null $card
-     * @return mixed
+     * @param $fromDate
+     * @param $tillDate
+     * @return array
      * @throws \yii\base\InvalidConfigException
      */
-	public function actionTransaction($fromDate, $tillDate){
-	    /** @var PayService $payService */
-	    $payService = Yii::createObject(PayService::class);
-	    return $payService->transaction($fromDate, $tillDate);
+    public function actionTransaction($fromDate, $tillDate)
+    {
+        /** @var PayService $payService */
+        $payService = Yii::createObject(PayService::class);
+        return $payService->transaction($fromDate, $tillDate);
 
-	}
+    }
 }

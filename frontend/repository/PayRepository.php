@@ -5,7 +5,7 @@ use yii\db\Query;
 
 class PayRepository
 {
-    public function findAllFromTill($fromDate, $tillDate)
+    public function findAllFromTill(int $fromDate, int $tillDate)
     {
         $rows = (new Query())
             ->select('*')

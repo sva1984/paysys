@@ -9,7 +9,8 @@ class ProductService
 {
     private $session;
 
-    public function register($price, $purposePay, $card=null){
+    public function register($price, $purposePay, $card = null)
+    {
         $this->session = Yii::$app->session;
 
         if (!$this->session->isActive) {

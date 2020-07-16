@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 
 echo 'Назначение плаnежа: ' . $payment[1]->purpose . "<br>";
-echo 'Цена: ' . ($payment[1]->price) . 'р' ."<br>";
+echo 'Цена: ' . ($payment[1]->price) . 'р' . "<br>";
 echo 'Дата: ' . date('H:m d-m-Y ', $payment[1]->date) . "<br>" . "<br>";
 ?>
 
