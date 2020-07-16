@@ -7,7 +7,7 @@ use frontend\models\Payment;
 use Yii;
 use yii\web\ForbiddenHttpException;
 
-class PaymentService
+class CardService
 {
     private $card;
 

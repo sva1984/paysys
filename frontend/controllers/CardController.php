@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use frontend\models\Payment;
-use frontend\service\PaymentService;
+use frontend\service\CardService;
 use Yii;
 
 class CardController extends \yii\web\Controller
@@ -16,15 +16,15 @@ class CardController extends \yii\web\Controller
      */
     public function actionForm($sessionId)
     {
-        /** @var PaymentService $paymentService */
-        $paymentService = Yii::createObject(PaymentService::class);
+        /** @var CardService $cardService */
+        $cardService = Yii::createObject(CardService::class);
         $model = Yii::createObject(Payment::class);
         if (Yii::$app->request->post()) {
             $card = Yii::$app->request->post()['Payment']['card_num'];
         }
             return $this->render('form', [
                 'model' => $model,
-                'payment' => $paymentService->payByCard($sessionId, $card),
+                'payment' => $cardService->payByCard($sessionId, $card),
             ]);
     }
 }
