@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use frontend\models\Payment;
-use frontend\service\CardService;
+use frontend\service\PayService;
 use Yii;
 
 class PayController extends RestController
@@ -17,8 +17,10 @@ class PayController extends RestController
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-	public function actionCard($sessionId, $card=null){
-//	    $paymentService = Yii::createObject(PaymentService::class);
-//	    return $paymentService->payByCard($sessionId, $card);
+	public function actionTransaction($fromDate, $tillDate){
+	    /** @var PayService $payService */
+	    $payService = Yii::createObject(PayService::class);
+	    return $payService->transaction($fromDate, $tillDate);
+
 	}
 }
