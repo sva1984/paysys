@@ -17,6 +17,15 @@ class PayController extends RestController
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
+    /**
+     * @OA\Info(
+     *   title="My first API",
+     *   version="1.0.0",
+     *   @OA\Contact(
+     *     email="support@example.com"
+     *   )
+     * )
+     */
     public function actionTransaction($fromDate, $tillDate)
     {
         /** @var PayService $payService */
