@@ -47,7 +47,8 @@ return [
                     'controller' => ['pay', 'product'],
                     'pluralize' => false,
                 ],
-
+                'register/' => 'product/pay',
+                'payments/card/form' => 'card/form',
             ],
         ]
     ],

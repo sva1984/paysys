@@ -4,25 +4,24 @@ namespace frontend\service;
 
 
 use Yii;
+use yii\helpers\Url;
 
 class ProductService
 {
-    private $session;
 
-    public function register($price, $purposePay, $card = null)
+    public function register(float $price, string $purposePay)
     {
-        $this->session = Yii::$app->session;
+        $session = Yii::$app->session;
 
-        if (!$this->session->isActive) {
-            $this->session->open();
+        if (!$session->isActive) {
+            $session->open();
         }
 
-        $this->session->set('price', $price);
-        $this->session->set('purpose', $purposePay);
-        $this->session->set('card', $card);
-        $this->session->set('created_at', time());
+        $session->set('price', $price);
+        $session->set('purpose', $purposePay);
+        $session->set('created_at', time());
+        $session->close();
 
-        $this->session->close();
-        return "http://payment.loc/card/form?sessionId=" . $this->session->id;
+        return Url::to(["payments/card/form?sessionId=" . $session->id], true);
     }
 }
