@@ -14,6 +14,17 @@ class ProductController extends RestController
     /** @var ProductService */
     public $registerPay;
 
+
+    public function __construct(
+        $id,
+        $module,
+        ProductService $registerPay,
+        array $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->registerPay = $registerPay;
+    }
+
     /**
      * @param $price
      * @param $purposePay
@@ -22,7 +33,6 @@ class ProductController extends RestController
      */
     public function actionPay($price, $purposePay)
     {
-        $this->registerPay = Yii::createObject(ProductService::class);
         return $this->registerPay->register($price, $purposePay);
     }
 }

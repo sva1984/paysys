@@ -8,23 +8,39 @@ use Yii;
 
 class CardController extends \yii\web\Controller
 {
+    /** @var CardService $cardService */
+    public $cardService;
+
+    /** @var Payment $payment */
+    public $payment;
+
+    public function __construct(
+        $id,
+        $module,
+        CardService $cardService,
+        Payment $payment,
+        array $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->cardService = $cardService;
+        $this->payment = $payment;
+    }
+
     /**
      * @param $sessionId
      * @return string
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\ForbiddenHttpException
      */
-    public function actionForm($sessionId)
+    public function actionForm(string $sessionId)
     {
-        /** @var CardService $cardService */
-        $cardService = Yii::createObject(CardService::class);
-        $model = Yii::createObject(Payment::class);
         if (Yii::$app->request->post()) {
             $card = Yii::$app->request->post()['Payment']['card_num'];
         }
+
         return $this->render('form', [
-            'model' => $model,
-            'payment' => $cardService->payByCard($sessionId, $card),
+            'model' => $this->payment,
+            'payment' => $this->cardService->payByCard($sessionId, $card),
         ]);
     }
 }

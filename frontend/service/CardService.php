@@ -9,7 +9,13 @@ use yii\web\ForbiddenHttpException;
 
 class CardService
 {
-    private $card;
+    /** @var Payment $payment */
+    public $payment;
+
+    public function __construct(Payment $payment)
+    {
+        $this->payment = $payment;
+    }
 
     /**
      * @param $sessionId
@@ -21,8 +27,6 @@ class CardService
     public function payByCard($sessionId, $card = null)
     {
         $session = Yii::$app->session;
-        /** @var Payment $payment */
-        $payment = Yii::createObject(Payment::class);
 
         if (!isset($session['price']) || !isset($session['purpose'])) {
             throw new ForbiddenHttpException(
@@ -36,22 +40,25 @@ class CardService
         }
 
 
-        if ($session->id == $sessionId && $card === null) {
-            $payment->price = $session->get('price');
-            $payment->purpose = $session->get('purpose');
-            $payment->date = $session->get('created_at');
-            return ['Введите номер карты', $payment];
+        if ($session->id == $sessionId && $card == null) {
+            $this->payment->price = $session->get('price');
+            $this->payment->purpose = $session->get('purpose');
+            $this->payment->date = $session->get('created_at');
+            return ['Введите номер карты', $this->payment];
         }
 
         if ($session->id == $sessionId && $card != null) {
-            $payment->card_num = $card;
+            $this->payment->price = $session->get('price');
+            $this->payment->purpose = $session->get('purpose');
+            $this->payment->date = $session->get('created_at');
+            $this->payment->card_num = $card;
             if ($this->checkCard($card)) {
-                $payment->save();
+                $this->payment->save();
                 $session->destroy();
-                return ['Покупка оплачена', $payment];
+                return ['Покупка оплачена', $this->payment];
             }
 
-            return ['Ошибка оплаты. Проверьте номер карты', $payment];
+            return ['Ошибка оплаты. Проверьте номер карты', $this->payment];
         }
     }
 
@@ -61,16 +68,16 @@ class CardService
      */
     public function checkCard($card)
     {
-        $this->card = str_split($card);
-        foreach ($this->card as $k => $val) {
+        $card = str_split($card);
+        foreach ($card as $k => $val) {
             if ($k % 2 === 0) {
-                $this->card[$k] = $this->card[$k] * 2;
-                if ($this->card[$k] > 9) {
-                    $this->card[$k] -= 9;
+                $card[$k] = $card[$k] * 2;
+                if ($card[$k] > 9) {
+                    $card[$k] -= 9;
                 }
             }
         }
-        $sumCard = array_sum($this->card);
+        $sumCard = array_sum($card);
         return ($sumCard % 10 === 0);
     }
 }

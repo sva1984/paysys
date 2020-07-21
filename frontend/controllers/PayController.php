@@ -4,23 +4,33 @@ namespace frontend\controllers;
 
 use frontend\models\Payment;
 use frontend\service\PayService;
-use Yii;
 
 class PayController extends RestController
 {
     /** @var Payment */
     public $modelClass = Payment::class;
 
+    /** @var PayService $payService */
+    public $payService;
+
+    public function __construct(
+        $id,
+        $module,
+        PayService $payService,
+        array $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->payService = $payService;
+    }
+
     /**
-     * @param $fromDate
-     * @param $tillDate
+     * @param $from
+     * @param $till
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionTransaction($fromDate, $tillDate)
+    public function actionTransaction(string $from, string $till)
     {
-        /** @var PayService $payService */
-        $payService = Yii::createObject(PayService::class);
-        return $payService->transaction($fromDate, $tillDate);
+        return $this->payService->transaction($from, $till);
     }
 }

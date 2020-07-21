@@ -49,6 +49,7 @@ return [
                 ],
                 'register/' => 'product/pay',
                 'payments/card/form' => 'card/form',
+                'transaction/' => 'pay/transaction'
             ],
         ]
     ],
