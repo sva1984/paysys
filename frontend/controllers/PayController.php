@@ -22,6 +22,5 @@ class PayController extends RestController
         /** @var PayService $payService */
         $payService = Yii::createObject(PayService::class);
         return $payService->transaction($fromDate, $tillDate);
-
     }
 }
